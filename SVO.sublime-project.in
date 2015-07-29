@@ -1,0 +1,44 @@
+{
+	"SublimeLinter": {
+		"linters": {
+			"cppcheck": {
+				"std": ["c99", "c11"]
+			}
+		}
+	},
+	"build_systems": //===========================================================
+	[
+		{
+			"name": "SVO - All",
+			"cmd":
+			[
+				"${project_path}/@THE_BUILD_CMD@",
+				"all"
+			],
+			"file_regex": "@THE_FILE_REGEX@",
+			"working_dir": "${project_path}"
+		},
+	],
+
+	"folders": //=================================================================
+	[
+		{
+			"folder_exclude_patterns": [
+				"archive", "bin", "build-*", "lib", ".git"
+			],
+			"file_exclude_patterns":
+			[
+				".tags",
+				".tags_sorted_by_file",
+				".gemtags",
+				".lib",
+				".dll",
+				".exe",
+				".obj",
+				".ilk"
+			],
+			"follow_symlinks": true,
+			"path": "@THE_PROJECT_ROOT@"
+		},
+	]
+}
