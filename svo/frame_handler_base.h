@@ -49,16 +49,44 @@ public:
     STAGE_DEFAULT_FRAME,
     STAGE_RELOCALIZING
   };
+  std::string ToString(Stage st) {
+    switch (st) {
+      case Stage::STAGE_PAUSED: return "STAGE_PAUSED";
+      case Stage::STAGE_FIRST_FRAME: return "STAGE_FIRST_FRAME";
+      case Stage::STAGE_SECOND_FRAME: return "STAGE_SECOND_FRAME";
+      case Stage::STAGE_DEFAULT_FRAME: return "STAGE_DEFAULT_FRAME";
+      case Stage::STAGE_RELOCALIZING: return "STAGE_RELOCALIZING";
+      default: return "UNKNOWN";
+    }
+  }
+
   enum TrackingQuality {
     TRACKING_INSUFFICIENT,
     TRACKING_BAD,
     TRACKING_GOOD
   };
+  std::string ToString(TrackingQuality st) {
+    switch (st) {
+      case TrackingQuality::TRACKING_INSUFFICIENT: return "TRACKING_INSUFFICIENT";
+      case TrackingQuality::TRACKING_BAD: return "TRACKING_BAD";
+      case TrackingQuality::TRACKING_GOOD: return "TRACKING_GOOD";
+      default: return "UNKNOWN";
+    }
+  }
+
   enum UpdateResult {
     RESULT_NO_KEYFRAME,
     RESULT_IS_KEYFRAME,
     RESULT_FAILURE
   };
+  std::string ToString(UpdateResult st) {
+    switch (st) {
+      case UpdateResult::RESULT_NO_KEYFRAME: return "RESULT_NO_KEYFRAME";
+      case UpdateResult::RESULT_IS_KEYFRAME: return "RESULT_IS_KEYFRAME";
+      case UpdateResult::RESULT_FAILURE: return "RESULT_FAILURE";
+      default: return "UNKNOWN";
+    }
+  }
 
   FrameHandlerBase();
 

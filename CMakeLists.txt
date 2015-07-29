@@ -4,7 +4,7 @@ project(svo)
 # user build settings ==========================================================
 
 option(SVO_TRACE "Trace" ON)
-option(SVO_HAVE_G2O "Have g2o" OFF) 
+option(SVO_HAVE_G2O "Have g2o" ON) 
 option(SVO_DEBUG_OUTPUT OFF) # Only relevant if build without ROS
 
 # Set definitions
@@ -137,6 +137,14 @@ endif()
 include_directories(${G2O_INCLUDE_DIR})
 cmaker_cull_library_paths(G2O_LIBRARIES)
 list(APPEND SVO_EXTERNAL_LIBS ${G2O_LIBRARIES})
+
+# Sense
+add_subdirectory(external/sense)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sense)
+include_directories(${SENSE_INC_DIRS_PARENT_SCOPE})
+link_directories(${SENSE_LIB_DIRS_PARENT_SCOPE})
+list(APPEND SVO_EXTERNAL_LIBS ${SENSE_ALL_LIBRARIES_PARENT_SCOPE})
+list(APPEND THE_DEPEDENCIES_BINARY_PATHS ${SENSE_THE_DEPEDENCIES_BINARY_PATHS_PARENT_SCOPE})
 
 ##==============================================================================
 include_directories(${SVO_INC_DIRS})

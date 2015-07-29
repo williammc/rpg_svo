@@ -54,7 +54,7 @@ void generateRefPatchNoWarpInterpolate(const cv::Mat& img, const Vector2d& px,
 int main(int argc, char **argv)
 {
 
-  std::string img_name(svo::test_utils::getDatasetDir() + "/sin2_tex2_h1_v8_d/img/frame_000002_0.png");
+  std::string img_name = std::string(SVO_ROOT) + "/data/two-boxes/sensor_recorder_000000-color.png";
   printf("Loading image '%s'\n", img_name.c_str());
   cv::Mat img(cv::imread(img_name, 0));
   assert(img.type() == CV_8UC1);

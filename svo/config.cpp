@@ -54,7 +54,7 @@ Config::Config() :
     quality_max_drop_fts(vk::getParam<int>("svo/quality_max_drop_fts", 40))
 #else
     trace_name("svo"),
-    trace_dir("/tmp"),
+    trace_dir("D:"),
     n_pyr_levels(3),
     use_imu(false),
     core_n_kfs(3),
