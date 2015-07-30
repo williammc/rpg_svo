@@ -31,9 +31,6 @@
 #include <iostream>
 #include "test_utils.h"
 
-#include "sense/videocapture_dispatch.h"
-#include "sense/tracking_events.h"
-
 namespace svo {
 
 using Matrix34f = Eigen::Matrix < float, 3, 4 > ;
@@ -93,7 +90,7 @@ class BenchmarkNode
 public:
   BenchmarkNode();
   ~BenchmarkNode();
-  void runFromFolder();
+  void runFromCamera();
 };
 
 BenchmarkNode::BenchmarkNode()
@@ -110,15 +107,18 @@ BenchmarkNode::~BenchmarkNode()
   delete cam_;
 }
 
-void BenchmarkNode::runFromFolder()
+void BenchmarkNode::runFromCamera()
 {
 
-  sense::VideoCaptureDispatch videodispatch(0, sense::CameraFamily::GENERIC,
-                                          std::string(SVO_ROOT) +
-                                              "/data/ueye-640x480-60fps.ini");
+  /// initialize camera capture
+  cv::VideoCapture capture;
+  if (!capture.open(0)) {
+    printf("ERROR: Cannot open cv::VideoCapture\n");
+    return;
+  }
 
-  sense::SenseSubscriber video_rec;
-  video_rec.Register(videodispatch);
+  capture.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+  capture.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
 
   Eigen::Matrix3f projection;
   projection << cam_params[2], 0.0, cam_params[4],
@@ -126,14 +126,19 @@ void BenchmarkNode::runFromFolder()
                 0.0, 0.0, 1.0;
   bool stop = false;
   bool tracking = false;
-  int img_id = 0;
+  cv::Mat bgr;
   while (!stop) {
-    cv::Mat bgr;
-    while (!video_rec.empty()) {
-      auto fr = std::dynamic_pointer_cast<sense::ImageEvent>(video_rec.pop());
-      if (fr) cv::cvtColor(fr->frame(), bgr, CV_RGB2BGR);
-    }
+    capture.read(bgr);
     if (bgr.empty()) continue;
+// #define BAYER_IMAGE // turn on this if you use a 8-bit bayer pattern camera
+#ifdef BAYER_IMAGE
+    if (bgr.channels() == 3)
+      cv::cvtColor(bgr, bgr, CV_BGR2GRAY);
+
+    // cv::imshow("test", bgr);
+    // cv::waitKey();
+    cv::cvtColor(bgr, bgr, CV_BayerRG2BGR);
+#endif
 
     // // load image
     // char tmp[200];
@@ -147,20 +152,21 @@ void BenchmarkNode::runFromFolder()
     //   img_id = 0;
     //   continue;
     // }
+
+    static int kf_count = 0;
+    static int frame_count = 0;
+    frame_count += 1;
+
     cv::Mat img;
     cv::cvtColor(bgr, img, CV_BGR2GRAY);
 
     auto t = std::chrono::high_resolution_clock::now();
     if (tracking) // process frame
-      vo_->addImage(img, 0.01*img_id);
+      vo_->addImage(img, 0.01*frame_count);
 
     auto t1 = std::chrono::high_resolution_clock::now();
     auto dur = std::chrono::duration_cast<std::chrono::microseconds>(t1-t).count();
     double fps = 1.e+6 / dur;
-
-    static int kf_count = 0;
-    static int frame_count = 0;
-    frame_count += 1;
 
     // display tracking quality
     if(vo_->lastFrame() != nullptr)
@@ -230,7 +236,7 @@ int main(int argc, char** argv)
 {
   {
     svo::BenchmarkNode benchmark;
-    benchmark.runFromFolder();
+    benchmark.runFromCamera();
   }
   printf("BenchmarkNode finished.\n");
   return 0;
