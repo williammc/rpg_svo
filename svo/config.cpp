@@ -25,7 +25,7 @@ Config::Config() :
 #ifdef SVO_USE_ROS
     trace_name(vk::getParam<string>("svo/trace_name", "svo")),
     trace_dir(vk::getParam<string>("svo/trace_dir", "/tmp")),
-    n_pyr_levels(vk::getParam<int>("svo/n_pyr_levels", 3)),
+    n_pyr_levels(vk::getParam<int>("svo/n_pyr_levels", 5)),
     use_imu(vk::getParam<bool>("svo/use_imu", false)),
     core_n_kfs(vk::getParam<int>("svo/core_n_kfs", 3)),
     map_scale(vk::getParam<double>("svo/map_scale", 1.0)),
@@ -55,7 +55,7 @@ Config::Config() :
 #else
     trace_name("svo"),
     trace_dir("D:"),
-    n_pyr_levels(3),
+    n_pyr_levels(5),
     use_imu(false),
     core_n_kfs(3),
     map_scale(1.0),
@@ -72,14 +72,14 @@ Config::Config() :
     structureoptim_num_iter(5),
     loba_thresh(2.0),
     loba_robust_huber_width(1.0),
-    loba_num_iter(0),
+    loba_num_iter(20),
     kfselect_mindist(0.12),
     triang_min_corner_score(20.0),
     triang_half_patch_size(4),
     subpix_n_iter(10),
     max_n_kfs(0),
     img_imu_delay(0.0),
-    max_fts(120),
+    max_fts(200),
     quality_min_fts(50),
     quality_max_drop_fts(40)
 #endif

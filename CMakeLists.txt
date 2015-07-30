@@ -105,6 +105,7 @@ set(G2O_LIBRARIES optimized ${G2O_CORE_LIBRARY} debug ${G2O_CORE_LIBRARY_DEBUG}
                   optimized ${G2O_SOLVER_DENSE} debug ${G2O_SOLVER_DENSE_DEBUG}
                   optimized ${G2O_TYPES_SLAM3D} debug ${G2O_TYPES_SLAM3D_DEBUG}
                   optimized ${G2O_SIMULATOR} debug ${G2O_SIMULATOR_DEBUG}
+                  optimized ${G2O_TYPES_SBA} debug ${G2O_TYPES_SBA_DEBUG}
                   )
 if(G2O_SOLVER_CSPARSE AND NOT APPLE)
   if(WIN32)
@@ -137,6 +138,7 @@ endif()
 include_directories(${G2O_INCLUDE_DIR})
 cmaker_cull_library_paths(G2O_LIBRARIES)
 list(APPEND SVO_EXTERNAL_LIBS ${G2O_LIBRARIES})
+list(APPEND THE_DEPEDENCIES_BINARY_PATHS ${G2O_BINARY_DIR})
 
 # Sense
 add_subdirectory(external/sense)
