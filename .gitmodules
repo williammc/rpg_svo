@@ -13,6 +13,3 @@
 [submodule "external/vikit"]
 	path = external/vikit
 	url = git@github.com:uzh-rpg/rpg_vikit.git
-[submodule "external/sense"]
-	path = external/sense
-	url = git@gitlab.icg.tugraz.at:thanh.nguyen/sense.git
