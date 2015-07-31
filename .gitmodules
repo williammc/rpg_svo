@@ -12,4 +12,5 @@
 	url = git@github.com:williammc/fast.git
 [submodule "external/vikit"]
 	path = external/vikit
-	url = git@github.com:uzh-rpg/rpg_vikit.git
+	url = git@github.com:williammc/rpg_vikit.git
+	branch = windows
