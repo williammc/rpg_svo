@@ -56,9 +56,11 @@ cmaker_common_build_setting()
 
 # Eigen
 list(APPEND SVO_INC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/external/eigen)
+set(EIGEN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/eigen)
 
 # Sophus
 list(APPEND SVO_INC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/external/sophus)
+SET(Sophus_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/external/sophus)
 
 ## Boost
 if(WIN32)
@@ -140,13 +142,6 @@ cmaker_cull_library_paths(G2O_LIBRARIES)
 list(APPEND SVO_EXTERNAL_LIBS ${G2O_LIBRARIES})
 list(APPEND THE_DEPEDENCIES_BINARY_PATHS ${G2O_BINARY_DIR})
 
-# Sense
-add_subdirectory(external/sense)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sense)
-include_directories(${SENSE_INC_DIRS_PARENT_SCOPE})
-link_directories(${SENSE_LIB_DIRS_PARENT_SCOPE})
-list(APPEND SVO_EXTERNAL_LIBS ${SENSE_ALL_LIBRARIES_PARENT_SCOPE})
-list(APPEND THE_DEPEDENCIES_BINARY_PATHS ${SENSE_THE_DEPEDENCIES_BINARY_PATHS_PARENT_SCOPE})
 
 ##==============================================================================
 include_directories(${SVO_INC_DIRS})
